@@ -28,10 +28,8 @@ RUN apk add --update --no-cache \
     vim \
   && ln -s /usr/bin/php8 /usr/bin/php \
   && rm -rf /var/www/* \
-  && git clone https://git.tt-rss.org/fox/tt-rss --depth=1 /var/www
-
-# we want to log to stdout for supervisord
-RUN pip install supervisor-stdout
+  && git clone https://git.tt-rss.org/fox/tt-rss --depth=1 /var/www \
+  && pip install git+https://github.com/coderanger/supervisor-stdout
 
 # Add plugins
 
@@ -71,3 +69,10 @@ COPY conf/php-fpm/www.conf /etc/php8/php-fpm.d/www.conf
 COPY conf/supervisord/supervisord.conf /etc/supervisord.conf
 COPY conf/nginx/ttrss.nginx.conf /etc/nginx/http.d/default.conf
 COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker-entrypoint.sh /
+
+RUN chmod 755 /docker-entrypoint.sh
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+
+CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
