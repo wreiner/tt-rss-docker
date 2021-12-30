@@ -22,6 +22,7 @@ An example env file for configuration can be found [here](env.example).
 
 A list with available config options for ttrss can be found [here](https://git.tt-rss.org/fox/tt-rss/src/branch/master/classes/config.php).
 
+The initial user credentials are **admin** and **password**.
 
 ## Notes
 
